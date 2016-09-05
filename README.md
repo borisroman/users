@@ -129,6 +129,17 @@ users_manage 'testgroup' do
 end
 ```
 
+Creates the `testgroup` group, and users defined in the `test_home_dir` databag and sets the primary group for each user to `testgroup` instead of creating separate groups with the name of each user.
+
+```ruby
+users_manage 'testgroup' do
+  data_bag 'test_home_dir'
+  group_id 3000
+  use_usergroups false
+  action [:create]
+end
+```
+
 Creates the `nfsgroup` group, and users defined in the `test_home_dir` databag and does not manage nfs home directories.
 
 ```ruby
@@ -147,6 +158,7 @@ end
 - `group_name` _String_ name of the group to create, defaults to resource name
 - `group_id` _Integer_ numeric id of the group to create, default is to allow the OS to pick next
 - `cookbook` _String_ name of the cookbook that the authorized_keys template should be found in
+- `use_usergroups` *Boolean* whether to use usergroups and create a unique group for each user, default is *True*
 - `manage_nfs_home_dirs` _Boolean_ whether to manage nfs home directories.
 
 Otherwise, this cookbook is specific for setting up `sysadmin` group and users with the sysadmins recipe for now.
